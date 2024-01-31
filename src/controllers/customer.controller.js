@@ -14,7 +14,7 @@ const createCustomer = async (req, res) => {
       detail,
       company,
     } = req.body;
-console.log(phoneNumber)
+    console.log(phoneNumber);
     const created = await CustomerSchema.create({
       lastName,
       firstName,
@@ -54,10 +54,9 @@ const getCustomer = async (req, res) => {
     } else {
       query = {};
     }
-    const customer = await CustomerSchema.find(query)
-      .sort({ createdAt: -1 })
-      // .skip(skip)
-      // .limit(itemsPerPage);
+    const customer = await CustomerSchema.find(query).sort({ createdAt: -1 });
+    // .skip(skip)
+    // .limit(itemsPerPage);
     return res.status(200).json({ customer });
   } catch (error) {
     return res.status(404).json({ error: error });
@@ -66,16 +65,33 @@ const getCustomer = async (req, res) => {
 
 const deleteCustomer = async (req, res) => {
   try {
-    const {customerId} = req.params
-    console.log(customerId)
-    const customer = await CustomerSchema.findOne({_id: customerId})
-    if(!customer){
-      return res.status(404).json({ error:"not find customer"})
+    const { customerId } = req.params;
+    console.log(customerId);
+    const customer = await CustomerSchema.findOne({ _id: customerId });
+    if (!customer) {
+      return res.status(404).json({ error: "not find customer" });
     }
-    await CustomerSchema.findOneAndDelete({_id: customerId})
-    return res.status(200).json({message:'ok'})
+    await CustomerSchema.findOneAndDelete({ _id: customerId });
+    return res.status(200).json({ message: "ok" });
   } catch (error) {
     return res.status(404).json({ error: error });
   }
 };
-module.exports = { getCustomer, createCustomer,deleteCustomer };
+const updateCustomer = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    console.log(customerId);
+    const customer = await CustomerSchema.findOne({ _id: customerId });
+    if (!customer) {
+      return res.status(404).json({ error: "not find customer" });
+    }
+     await CustomerSchema.findOneAndUpdate(
+      { _id: customerId },
+      { status: "done" }
+    );
+    return res.status(200).json({ message: "ok" });
+  } catch (error) {
+    return res.status(404).json({ error: error });
+  }
+};
+module.exports = { getCustomer, createCustomer, deleteCustomer, updateCustomer };

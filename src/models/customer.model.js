@@ -9,7 +9,7 @@ const CustomerSchema = mongoose.Schema(
 
     phoneNumber: {
       type: String,
-      unique: true,
+      required: true,
     },
 
     email: {
