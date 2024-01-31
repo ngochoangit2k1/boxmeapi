@@ -94,4 +94,9 @@ const updateCustomer = async (req, res) => {
     return res.status(404).json({ error: error });
   }
 };
-module.exports = { getCustomer, createCustomer, deleteCustomer, updateCustomer };
+module.exports = { 
+  getCustomer, 
+  createCustomer, 
+  deleteCustomer, 
+  updateCustomer 
+};

@@ -5,6 +5,6 @@ const router = express.Router();
 router.post('/create', customerController.createCustomer);
 router.get('/', customerController.getCustomer)
 router.patch('/update-status/:customerId', customerController.updateCustomer)
-router.post('/delete/:customerId')
+router.post('/delete/:customerId', customerController.deleteCustomer)
 
 module.exports = router;
