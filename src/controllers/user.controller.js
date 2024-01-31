@@ -42,19 +42,14 @@ const register = async (req, res) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(password, salt);
-    do {
-      idUser = generateRandomString(5);
-      checkIdUser = await UserSchema.findOne({ idUser });
-    } while (checkIdUser);
+   
     const newUser = new UserSchema({
       name: name,
       username: username,
       password: passwordHash,
-      idUser: idUser,
       isStaff: isStaff
     });
     await newUser.save();
-    await createWallet(newUser._id);
     res.status(200).json({
       oke: true,
       message: "Bạn đã tạo tài khoản thành công! 🎉'",
