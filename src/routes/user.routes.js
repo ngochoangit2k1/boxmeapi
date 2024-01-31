@@ -9,6 +9,6 @@ const router = express.Router();
 router.post('/create', userController.register);
 router.get('/get-all-staff', verifyToken, userController.getAllUser);
 router.get('/search-staff',verifyToken, userController.searchStaff);
-router.post('/delete-user/:userId', verifyToken, authAdmin, userController.deleteUser)
+router.post('/delete-user/:userId', verifyToken,  userController.deleteUser)
 
 module.exports = router;
