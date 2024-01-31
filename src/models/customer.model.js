@@ -1,38 +1,38 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const CustomerSchema = mongoose.Schema({
+const CustomerSchema = mongoose.Schema(
+  {
+    lastName: {
+      type: String,
+    },
+    firstName: { type: String },
 
-  lastName: {
-    type: String,
-  },
-  firstName: { type: String },
+    phoneNumber: {
+      type: String,
+      // unique: true,
+    },
 
-
-  phoneNumber: {
-    type: String,
-    // unique: true,
+    email: {
+      type: String,
+      // unique: true,
+    },
+    website: {
+      type: String,
+    },
+    currentMarket: {
+      type: String,
+    },
+    currentSelling: {
+      type: String,
+    },
+    orderVolume: {
+      type: String,
+    },
+    detail: {
+      type: String,
+    },
   },
-
-  email: {
-    type: String,
-    // unique: true,
-  },
-  website: {
-    type: String,
-  },
-  currentMarket: {
-    type: String,
-  },
-  currentSelling: {
-    type: String,
-  },
-  orderVolume: {
-    type: String,
-  },
-  detail: {
-    type: String,
-  },
-
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("customer", CustomerSchema);
