@@ -1,16 +1,9 @@
 const config = require("./config");
 const mongoose = require("mongoose");
 // const {
-//   ContactSchema,
-//   MessageSchema,
-//   PaymentSchema,
-//   OrderSchema,
-//   WalletSchema,
-//   ConfigTransitiontSchema,
-//   HistoryWalletSchema,
-//   PaymentAdminSchema,
+
 //   UserSchema
-// } = require("../models");
+// } = require("../models/user.model.js");
 
 mongoose
   .connect(config.MONGODB_URL, {

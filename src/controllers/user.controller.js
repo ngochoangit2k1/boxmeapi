@@ -2,17 +2,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserSchema = require("../models/user.model");
 const auth = require("../middlewares/auth");
-const WalletSchema = require("../models/wallet.model");
 const config = require("../config/config");
 const { validateEmail } = require("../validates/auth.validate");
-const PaymentSchema = require("../models/payment.model");
 const { sendMail } = require("../utils/mailer");
-const OtpSchema = require("../models/registerCode.model.js");
-const {
-  createWallet,
-  historyAddMinusMoney,
-} = require("./wallet.controller.js");
-const ConfigStartPointSchema = require("../models/configStartPoint.model.js");
+
 const generateRandomString = (length) => {
   const characters = "0123456789";
   let result = "";
