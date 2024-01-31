@@ -294,56 +294,13 @@ const getAllUser = async (req, res) => {
     const users = await UserSchema.find({
       username: { $ne: "adminone@admin.com" },
     }).sort("__v");
-    const userIds = users.map((user) => user._id);
-
-    // Lấy thông tin PaymentSchema dựa trên userIds
-    const paymentInfo = await PaymentSchema.find({ userId: { $in: userIds } });
-    const getWallet = await WalletSchema.find({ userId: { $in: userIds } });
-
-    // Merging thông tin PaymentSchema vào mỗi user
-    const usersWithPaymentInfo = users.map((user) => {
-      const userPaymentInfo = paymentInfo.find(
-        (info) =>
-          info.userId &&
-          user._id &&
-          info.userId.toString() === user._id.toString()
-      );
-
-      const userWalletInfo = getWallet.filter(
-        (info) =>
-          info.userId &&
-          user._id &&
-          info.userId.toString() === user._id.toString()
-      );
-
-      return {
-        ...user.toObject(),
-        bankName: userPaymentInfo ? userPaymentInfo.bankName : null,
-        banKNumber: userPaymentInfo ? userPaymentInfo.accountNumber : null,
-        nameUserBank: userPaymentInfo ? userPaymentInfo.nameUserBank : null,
-        walletBalance:
-          userWalletInfo.length > 0
-            ? userWalletInfo.map((w) => w.totalAmount)
-            : null,
-        money:
-          userWalletInfo.length > 0 ? userWalletInfo.map((w) => w.money) : null,
-        totalFreeze:
-          userWalletInfo.length > 0
-            ? userWalletInfo.map((w) => w.totalFreeze)
-            : null,
-      };
-    });
-
-    const usersWithoutPassword = usersWithPaymentInfo.map((user) => {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
-    });
+    
 
     const countAllUsers = users.length;
 
     return res.status(200).json({
       count: countAllUsers,
-      user: usersWithoutPassword,
+      user: users,
     });
   } catch (err) {
     console.log(err);
@@ -371,42 +328,8 @@ const searchStaff = async (req, res) => {
     }
 
     const searchStaff = await UserSchema.find(query).sort({ createdAt: -1 });
-    console.log(searchStaff)
-    const userIds = searchStaff.map((user) => user._id);
-
-    // // Lấy thông tin PaymentSchema dựa trên userIds
-    const paymentInfo = await PaymentSchema.find({
-      userId: { $in: userIds },
-    }).sort({ createdAt: -1 });
-    const getWallet = await WalletSchema.find({ userId: { $in: userIds } });
-
-    const usersWithPaymentInfo = searchStaff.map((user) => {
-      const userPaymentInfo = paymentInfo.find(
-        (info) => info.userId.toString() === user._id.toString()
-      );
-      const userWalletInfo = getWallet.filter(
-        (info) =>
-          info.userId &&
-          user._id &&
-          info.userId.toString() === user._id.toString()
-      );
-      return {
-        ...user.toObject(),
-        bankName: userPaymentInfo ? userPaymentInfo.bankName : null,
-        banKNumber: userPaymentInfo ? userPaymentInfo.accountNumber : null,
-        walletBalance:
-          userWalletInfo.length > 0
-            ? userWalletInfo.map((w) => w.totalAmount)
-            : null,
-        money:
-          userWalletInfo.length > 0 ? userWalletInfo.map((w) => w.money) : null,
-        totalFreeze:
-          userWalletInfo.length > 0
-            ? userWalletInfo.map((w) => w.totalFreeze)
-            : null,
-      };
-    });
-    return res.status(200).json(usersWithPaymentInfo);
+    
+    return res.status(200).json(searchStaff);
   } catch (error) {
     return res.status(400).json(error);
   }
