@@ -9,7 +9,7 @@ const CustomerSchema = mongoose.Schema(
 
     phoneNumber: {
       type: String,
-      // unique: true,
+      unique: true,
     },
 
     email: {
@@ -32,6 +32,10 @@ const CustomerSchema = mongoose.Schema(
     detail: {
       type: String,
     },
+    status: {
+      type: String,
+      default:'pending'
+    }
   },
   { timestamps: true }
 );
