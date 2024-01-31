@@ -47,7 +47,8 @@ const register = async (req, res) => {
       name: name,
       username: username,
       password: passwordHash,
-      isStaff: isStaff
+      isStaff: isStaff,
+      isAdmin: isAdmin,
     });
     await newUser.save();
     res.status(200).json({
@@ -279,9 +280,19 @@ const getUserProfile = async (req, res) => {
 
 const getAllUser = async (req, res) => {
   try {
-    const users = await UserSchema.find({
-      username: { $ne: "adminone@admin.com" },
-    }).sort("__v");
+    const {search} = req.query
+    let query = {};
+    if (search) {
+      query = {
+        $or: [
+          { email: { $regex: search, $options: "i" },   username: { $ne: "adminone@admin.com" }, },
+          { username: { $regex: search, $options: "i" },   username: { $ne: "adminone@admin.com" }, },
+        ],
+      };
+    } else {
+      query = {};
+    }
+    const users = await UserSchema.find(query).select("-password").sort("__v");
     
 
     const countAllUsers = users.length;
