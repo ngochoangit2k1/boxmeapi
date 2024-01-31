@@ -12,6 +12,7 @@ const createCustomer = async (req, res) => {
       currentSelling,
       orderVolume,
       detail,
+      company
     } = req.body;
 
     const created = await CustomerSchema.create({
@@ -24,6 +25,7 @@ const createCustomer = async (req, res) => {
       currentSelling,
       orderVolume,
       detail,
+      company
     });
 
     return res.status(201).json(created);

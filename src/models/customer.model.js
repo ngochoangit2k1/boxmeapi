@@ -19,11 +19,12 @@ const CustomerSchema = mongoose.Schema(
     website: {
       type: String,
     },
+    company:{type: String,},
     currentMarket: {
-      type: String,
+      type: Array,
     },
     currentSelling: {
-      type: String,
+      type: Array,
     },
     orderVolume: {
       type: String,
